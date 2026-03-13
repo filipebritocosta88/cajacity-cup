@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Cajacity Cup</title>
+<title>Jogadores - Cajacity Cup</title>
 
 <style>
 
@@ -16,19 +16,34 @@ text-align:center;
 
 .box{
 background:#1e293b;
-padding:30px;
-width:300px;
+padding:20px;
+width:400px;
 margin:auto;
 border-radius:10px;
-margin-top:100px;
+}
+
+input{
+padding:10px;
+margin:5px;
+width:80%;
 }
 
 button{
 padding:10px;
-border:none;
 background:#22c55e;
+border:none;
 color:white;
 cursor:pointer;
+}
+
+table{
+margin:auto;
+margin-top:20px;
+background:#1e293b;
+}
+
+td,th{
+padding:10px;
 }
 
 </style>
@@ -39,17 +54,74 @@ cursor:pointer;
 
 <h1>🏆 Cajacity Cup</h1>
 
+<h2>Cadastrar Jogador</h2>
+
 <div class="box">
 
-<h2>Bem vindo ao campeonato</h2>
+<input id="nome" placeholder="Nome do jogador">
 
-<p>Sistema oficial do Cajacity Cup</p>
+<input id="time" placeholder="Time escolhido">
 
-<button onclick="alert('Sistema em construção')">
-Entrar
-</button>
+<button onclick="cadastrar()">Cadastrar</button>
 
 </div>
+
+<h2>Jogadores</h2>
+
+<table border="1">
+
+<thead>
+
+<tr>
+
+<th>Jogador</th>
+<th>Time</th>
+
+</tr>
+
+</thead>
+
+<tbody id="lista"></tbody>
+
+</table>
+
+<script>
+
+let jogadores = []
+
+function cadastrar(){
+
+let nome = document.getElementById("nome").value
+let time = document.getElementById("time").value
+
+jogadores.push({nome,time})
+
+atualizar()
+
+}
+
+function atualizar(){
+
+let tabela = document.getElementById("lista")
+
+tabela.innerHTML=""
+
+jogadores.forEach(j=>{
+
+tabela.innerHTML +=
+
+`<tr>
+
+<td>${j.nome}</td>
+<td>${j.time}</td>
+
+</tr>`
+
+})
+
+}
+
+</script>
 
 </body>
 
