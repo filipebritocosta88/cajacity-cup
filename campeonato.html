@@ -1,108 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Campeonato</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
-body{
-background:#020617;
-color:white;
-padding:20px;
-}
-
-header{
-font-size:22px;
-font-weight:600;
-margin-bottom:30px;
-}
-
-.card{
-background:#1e293b;
-padding:20px;
-border-radius:12px;
-margin-bottom:20px;
-}
-
-select{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:8px;
-border:none;
-background:#0f172a;
-color:white;
-}
-
-button{
-width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:8px;
-background:#22c55e;
-color:white;
-font-weight:600;
-cursor:pointer;
-}
-
-.jogador{
-background:#0f172a;
-padding:12px;
-border-radius:8px;
-margin-top:10px;
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Campeonato | Cajacity Cup</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
 <body>
 
-<header>🏆 Campeonato</header>
+    <header>
+        <div class="logo" onclick="window.location.href='dashboard.html'">Cajacity Cup</div>
+        <img src="https://via.placeholder.com/40" class="user-avatar" id="header-avatar">
+    </header>
 
-<div class="card">
+    <div class="container">
+        <div id="camp-info-top" style="text-align: center; margin-bottom: 20px;">
+            <span class="game-badge" id="detalhe-jogo">---</span>
+            <h2 id="detalhe-nome" style="margin: 10px 0;">Carregando...</h2>
+            <p id="detalhe-formato" style="color: #888; font-size: 0.8rem;"></p>
+        </div>
 
-<h3>Escolher Time</h3>
+        <div style="display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px;">
+            <button class="btn-primary" style="width: auto; flex: 1; padding: 10px;" onclick="switchTab('tab-tabela')">Tabela</button>
+            <button class="btn-primary" style="width: auto; flex: 1; padding: 10px; background: var(--bg-card); color: white;" onclick="switchTab('tab-jogadores')">Jogadores</button>
+            <button id="btn-admin-tab" class="btn-primary hidden" style="width: auto; flex: 1; padding: 10px; background: var(--accent); color: white;" onclick="switchTab('tab-admin')">Admin</button>
+        </div>
 
-<select id="time">
+        <div id="tab-jogadores" class="tab-content hidden">
+            <div class="card-campeonato">
+                <h3>Participantes</h3>
+                <div id="lista-players-camp" style="margin-top: 15px;">
+                    </div>
+            </div>
+        </div>
 
-<option>Real Madrid</option>
-<option>Barcelona</option>
-<option>Manchester City</option>
-<option>PSG</option>
-<option>Bayern</option>
+        <div id="tab-tabela" class="tab-content">
+            <div class="card-campeonato" style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #333; text-align: left;">
+                            <th style="padding: 10px;">Pos</th>
+                            <th>Player</th>
+                            <th>P</th>
+                            <th>V</th>
+                            <th>E</th>
+                            <th>D</th>
+                            <th>SG</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-corpo">
+                        </tbody>
+                </table>
+            </div>
+        </div>
 
-</select>
+        <div id="tab-admin" class="tab-content hidden">
+            <div class="card-campeonato">
+                <h3>Convidar Jogador</h3>
+                <div class="form-group" style="display: flex; gap: 5px; margin-top: 10px;">
+                    <input type="text" id="convite-email" placeholder="E-mail do jogador">
+                    <button class="btn-primary" style="width: 80px;" id="btn-enviar-convite">OK</button>
+                </div>
+            </div>
+            
+            <div class="card-campeonato">
+                <h3>Registrar Resultado</h3>
+                <div style="display: flex; align-items: center; justify-content: space-around; margin-top: 10px;">
+                    <select id="res-p1" style="width: 40%;"></select>
+                    <input type="number" id="gols-p1" style="width: 50px; text-align: center;" placeholder="0">
+                    <span>X</span>
+                    <input type="number" id="gols-p2" style="width: 50px; text-align: center;" placeholder="0">
+                    <select id="res-p2" style="width: 40%;"></select>
+                </div>
+                <button class="btn-primary" style="margin-top: 15px;" id="btn-salvar-jogo">Salvar Placar</button>
+            </div>
+        </div>
 
-<button onclick="escolherTime()">Confirmar</button>
+    </div>
 
-</div>
-
-<div class="card">
-
-<h3>Jogadores</h3>
-
-<div id="jogadores"></div>
-
-</div>
-
-<script type="module" src="js/campeonato.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/campeonato.js"></script>
 </body>
-
 </html>
