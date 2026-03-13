@@ -1,58 +1,73 @@
-// js/campeonato.js
 const db = firebase.firestore();
 const urlParams = new URLSearchParams(window.location.search);
 const campId = urlParams.get('id');
-
-let dadosCampeonato = null;
+let dadosCamp = null;
+let meuNome = "";
 
 firebase.auth().onAuthStateChanged(user => {
     if (user && campId) {
-        carregarDadosCampeonato(user.uid);
+        db.collection('usuarios').doc(user.uid).get().then(u => meuNome = u.data().nome);
+        
+        db.collection('campeonatos').doc(campId).onSnapshot(doc => {
+            dadosCamp = doc.data();
+            document.getElementById('detalhe-nome').innerText = dadosCamp.nome;
+            document.getElementById('detalhe-jogo').innerText = dadosCamp.jogo;
+            
+            if (dadosCamp.hostId === user.uid) {
+                document.getElementById('btn-admin-tab').classList.remove('hidden');
+                carregarTodosUsuarios();
+            }
+            carregarPlayersConfirmados();
+        });
     }
 });
 
-function carregarDadosCampeonato(userId) {
-    db.collection('campeonatos').doc(campId).get().then(doc => {
-        if (doc.exists) {
-            dadosCampeonato = doc.data();
-            document.getElementById('detalhe-nome').innerText = dadosCampeonato.nome;
-            document.getElementById('detalhe-jogo').innerText = dadosCampeonato.jogo;
-            document.getElementById('detalhe-formato').innerText = `${dadosCampeonato.console} • ${dadosCampeonato.formato}`;
-
-            // Se for o Host, mostra aba Admin
-            if (dadosCampeonato.hostId === userId) {
-                document.getElementById('btn-admin-tab').classList.remove('hidden');
-                popularSelectsAdmin();
-            }
-            
-            carregarListaParticipantes();
-        }
-    });
-}
-
-function carregarListaParticipantes() {
+function carregarPlayersConfirmados() {
     const lista = document.getElementById('lista-players-camp');
     lista.innerHTML = "";
-    
-    // Busca detalhes de cada participante
-    dadosCampeonato.participantes.forEach(uid => {
-        db.collection('usuarios').doc(uid).get().then(userDoc => {
-            const u = userDoc.data();
+    dadosCamp.participantes.forEach(uid => {
+        db.collection('usuarios').doc(uid).get().then(uDoc => {
+            const data = uDoc.data();
             lista.innerHTML += `
-                <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #333;">
-                    <span><i class="fas fa-user-circle"></i> ${u.nome}</span>
-                    <span style="font-size: 0.7rem; color: var(--primary);">TIME: ---</span>
-                </div>
-            `;
+                <div style="display:flex; align-items:center; gap:10px; padding:10px; border-bottom:1px solid #333;">
+                    <img src="${data.foto || 'https://via.placeholder.com/30'}" style="width:30px; border-radius:50%">
+                    <span>${data.nome}</span>
+                </div>`;
         });
     });
 }
 
-function switchTab(tabId) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
-    document.getElementById(tabId).classList.remove('hidden');
+function carregarTodosUsuarios() {
+    const listaGeral = document.getElementById('lista-todos-usuarios');
+    db.collection('usuarios').limit(20).get().then(snap => {
+        listaGeral.innerHTML = "";
+        snap.forEach(uDoc => {
+            const user = uDoc.data();
+            // Não listar a si mesmo e nem quem já está no camp
+            if (uDoc.id !== firebase.auth().currentUser.uid && !dadosCamp.participantes.includes(uDoc.id)) {
+                const item = document.createElement('div');
+                item.className = 'card-campeonato';
+                item.style = "margin-bottom: 5px; padding: 10px; cursor: pointer; background: #252a33";
+                item.innerHTML = `<span><i class="fas fa-plus-circle"></i> ${user.nome}</span>`;
+                item.onclick = () => enviarConvite(uDoc.id, user.nome);
+                listaGeral.appendChild(item);
+            }
+        });
+    });
 }
 
-function popularSelectsAdmin() {
-    // Aqui popularíamos os selects com os nomes dos jogadores para registrar resultados
+function enviarConvite(idConvidado, nomeConvidado) {
+    db.collection('convites').add({
+        deId: firebase.auth().currentUser.uid,
+        deNome: meuNome,
+        paraId: idConvidado,
+        campId: campId,
+        campNome: dadosCamp.nome,
+        status: 'pendente'
+    }).then(() => alert("Convite enviado para " + nomeConvidado));
+}
+
+function switchTab(id) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
 }
