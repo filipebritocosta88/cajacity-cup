@@ -2,10 +2,7 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Cajacity Cup</title>
 
 <style>
@@ -18,7 +15,7 @@ text-align:center;
 padding-top:100px;
 }
 
-.container{
+.box{
 background:#1e293b;
 width:350px;
 margin:auto;
@@ -30,8 +27,8 @@ input{
 width:100%;
 padding:10px;
 margin:10px 0;
-border:none;
 border-radius:5px;
+border:none;
 }
 
 button{
@@ -43,93 +40,26 @@ background:#22c55e;
 color:white;
 font-weight:bold;
 cursor:pointer;
-margin-top:10px;
-}
-
-button:hover{
-background:#16a34a;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <h1>🏆 Cajacity Cup</h1>
 
-<div class="container">
-
-<h2>Login</h2>
+<div class="box">
 
 <input id="email" placeholder="Email">
-
 <input id="senha" type="password" placeholder="Senha">
 
 <button onclick="login()">Entrar</button>
-
 <button onclick="criarConta()">Criar conta</button>
 
 </div>
 
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword }
-
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-
-const firebaseConfig = {
-
-apiKey: "AIzaSyBHdQFLQ3V4BjdYRt5J6zq1H86jFJrotic",
-
-authDomain: "cajacity-cup.firebaseapp.com",
-
-projectId: "cajacity-cup",
-
-storageBucket: "cajacity-cup.firebasestorage.app",
-
-messagingSenderId: "922666284836",
-
-appId: "1:922666284836:web:4bd0e3e8a6600e0dd7a5b1"
-
-};
-
-
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-
-window.criarConta = async function(){
-
-let email = document.getElementById("email").value
-
-let senha = document.getElementById("senha").value
-
-await createUserWithEmailAndPassword(auth,email,senha)
-
-alert("Conta criada com sucesso!")
-
-}
-
-
-window.login = async function(){
-
-let email = document.getElementById("email").value
-
-let senha = document.getElementById("senha").value
-
-await signInWithEmailAndPassword(auth,email,senha)
-
-alert("Login realizado!")
-
-}
-
-</script>
+<script type="module" src="js/auth.js"></script>
 
 </body>
-
 </html>
