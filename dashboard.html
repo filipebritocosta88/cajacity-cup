@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<style>
+
+body{
+background:#020617;
+color:white;
+font-family:Arial;
+text-align:center;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+margin:20px;
+border-radius:10px;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:5px;
+background:#22c55e;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🏆 Cajacity Cup Dashboard</h1>
+
+<div class="card">
+
+<h2>Criar Campeonato</h2>
+
+<input id="nomeCamp" placeholder="Nome do campeonato">
+
+<select id="console">
+<option>PS3</option>
+<option>PS4</option>
+<option>PS5</option>
+<option>Xbox 360</option>
+</select>
+
+<select id="jogo">
+<option>PES 2018</option>
+<option>FIFA 2019</option>
+<option>Efootball 2026</option>
+<option>FIFA 2025</option>
+<option>FIFA 2026</option>
+</select>
+
+<select id="formato">
+<option>Liga</option>
+<option>Mata-mata</option>
+<option>Liga + Mata-mata</option>
+</select>
+
+<button onclick="criarCampeonato()">Criar</button>
+
+</div>
+
+<div class="card">
+
+<h2>Campeonatos</h2>
+
+<div id="lista"></div>
+
+</div>
+
+<script type="module" src="js/dashboard.js"></script>
+
+</body>
+</html>
