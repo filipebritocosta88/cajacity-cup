@@ -1,72 +1,53 @@
-// js/auth.js
-
-// Referências
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 // LOGIN
-const btnEntrar = document.getElementById('btn-entrar');
-if (btnEntrar) {
-    btnEntrar.addEventListener('click', () => {
+if (document.getElementById('btn-entrar')) {
+    document.getElementById('btn-entrar').addEventListener('click', () => {
         const email = document.getElementById('login-email').value;
         const senha = document.getElementById('login-senha').value;
-
         auth.signInWithEmailAndPassword(email, senha)
-            .then(() => {
-                window.location.href = 'dashboard.html';
-            })
-            .catch(error => alert("Erro ao entrar: " + error.message));
+            .catch(err => alert("Erro: " + err.message));
     });
 }
 
-// CADASTRO
-const btnCadastrar = document.getElementById('btn-cadastrar');
-if (btnCadastrar) {
-    btnCadastrar.addEventListener('click', () => {
-        const nome = document.getElementById('reg-nome').value;
+// CADASTRO COM VERIFICAÇÃO DE NOME ÚNICO
+if (document.getElementById('btn-cadastrar')) {
+    document.getElementById('btn-cadastrar').addEventListener('click', async () => {
+        const nome = document.getElementById('reg-nome').value.trim();
         const email = document.getElementById('reg-email').value;
         const senha = document.getElementById('reg-senha').value;
 
-        if (nome === "") return alert("Escolha um nome de jogador!");
+        if (nome.length < 3) return alert("Nick muito curto!");
+
+        // Verifica se nome já existe
+        const snapshot = await db.collection('usuarios').where('nome', '==', nome).get();
+        if (!snapshot.empty) {
+            document.getElementById('nome-aviso').style.display = 'block';
+            return;
+        }
 
         auth.createUserWithEmailAndPassword(email, senha)
             .then(cred => {
-                // Salva dados adicionais no Firestore
                 return db.collection('usuarios').doc(cred.user.uid).set({
                     nome: nome,
                     email: email,
                     foto: "",
-                    estatisticas: {
-                        jogos: 0,
-                        vitorias: 0,
-                        empates: 0,
-                        derrotas: 0,
-                        gols: 0
-                    }
+                    estatisticas: { jogos: 0, vitorias: 0, empates: 0, derrotas: 0, gols: 0 }
                 });
             })
-            .then(() => {
-                window.location.href = 'dashboard.html';
-            })
-            .catch(error => alert("Erro ao cadastrar: " + error.message));
+            .catch(err => alert(err.message));
     });
 }
 
-// Observador de Autenticação (Proteção de Rotas)
+// PROTEÇÃO DE ROTA
 auth.onAuthStateChanged(user => {
-    const path = window.location.pathname;
-    const isLoginPage = path.endsWith('index.html') || path.endsWith('/');
-
+    const isIndex = window.location.pathname.endsWith('index.html') || window.location.pathname === '/';
     if (user) {
-        if (isLoginPage) window.location.href = 'dashboard.html';
+        if (isIndex) window.location.href = 'dashboard.html';
     } else {
-        if (!isLoginPage) window.location.href = 'index.html';
+        if (!isIndex) window.location.href = 'index.html';
     }
 });
 
-// LOGOUT
-function logout() {
-    auth.signOut().then(() => {
-        window.location.href = 'index.html';
-    });
-}
+function logout() { auth.signOut(); }
