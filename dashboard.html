@@ -6,82 +6,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard</title>
+<title>Cajacity Cup</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
-body{
-background:#020617;
-color:white;
-padding:20px;
-}
-
-header{
-font-size:22px;
-font-weight:600;
-margin-bottom:30px;
-}
-
-.card{
-background:#1e293b;
-padding:20px;
-border-radius:12px;
-margin-bottom:20px;
-}
-
-input,select{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:8px;
-border:none;
-background:#0f172a;
-color:white;
-}
-
-button{
-width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:8px;
-background:#22c55e;
-color:white;
-font-weight:600;
-cursor:pointer;
-}
-
-.lista{
-margin-top:20px;
-}
-
-.item{
-background:#0f172a;
-padding:15px;
-border-radius:8px;
-margin-bottom:10px;
-}
-
-</style>
+<link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
 
-<header>🏆 Cajacity Cup</header>
+<header>
+
+<div class="logo">🏆 Cajacity Cup</div>
+
+<div onclick="window.location='perfil.html'" class="avatar" id="avatar">
+P
+</div>
+
+</header>
+
+<div class="container">
 
 <div class="card">
 
-<h3>Criar Campeonato</h3>
+<h3>Criar campeonato</h3>
 
 <input id="nomeCamp" placeholder="Nome do campeonato">
 
@@ -102,8 +51,7 @@ margin-bottom:10px;
 
 <select id="formato">
 <option>Liga</option>
-<option>Mata-mata</option>
-<option>Liga + Mata-mata</option>
+<option>Liga + Mata Mata</option>
 </select>
 
 <button onclick="criarCampeonato()">Criar campeonato</button>
@@ -115,6 +63,8 @@ margin-bottom:10px;
 <h3>Campeonatos</h3>
 
 <div id="lista"></div>
+
+</div>
 
 </div>
 
