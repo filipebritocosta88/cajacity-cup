@@ -1,7 +1,12 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword }
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
 import { app } from "./firebase.js";
+
+import {
+
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword
+
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const auth = getAuth(app);
 
@@ -12,7 +17,7 @@ let senha = document.getElementById("senha").value
 
 await createUserWithEmailAndPassword(auth,email,senha)
 
-alert("Conta criada!")
+window.location.href="dashboard.html"
 
 }
 
@@ -23,6 +28,6 @@ let senha = document.getElementById("senha").value
 
 await signInWithEmailAndPassword(auth,email,senha)
 
-alert("Login realizado!")
+window.location.href="dashboard.html"
 
 }
