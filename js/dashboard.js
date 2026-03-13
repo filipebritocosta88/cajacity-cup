@@ -1,14 +1,45 @@
 import { app } from "./firebase.js";
 
 import {
-
 getFirestore,
 collection,
-addDoc
-
+addDoc,
+getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const db = getFirestore(app);
+
+const lista = document.getElementById("lista")
+
+async function carregarCampeonatos(){
+
+lista.innerHTML=""
+
+const querySnapshot = await getDocs(collection(db,"campeonatos"))
+
+querySnapshot.forEach((doc)=>{
+
+const data = doc.data()
+
+lista.innerHTML += `
+
+<div class="campeonato">
+
+<b>${data.nome}</b><br>
+
+${data.console} • ${data.jogo}<br>
+
+Formato: ${data.formato}
+
+</div>
+
+`
+
+})
+
+}
+
+carregarCampeonatos()
 
 window.criarCampeonato = async function(){
 
@@ -26,6 +57,8 @@ formato
 
 })
 
-alert("Campeonato criado")
+alert("Campeonato criado!")
+
+carregarCampeonatos()
 
 }
