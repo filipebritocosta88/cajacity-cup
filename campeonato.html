@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<title>Campeonato</title>
+
+<style>
+
+body{
+background:#020617;
+color:white;
+font-family:Arial;
+text-align:center;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+margin:20px;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🏆 Campeonato</h1>
+
+<div class="card">
+
+<h2>Escolher Time</h2>
+
+<select id="time">
+
+<option>Real Madrid</option>
+<option>Barcelona</option>
+<option>Manchester City</option>
+<option>PSG</option>
+<option>Bayern</option>
+
+</select>
+
+<button onclick="escolherTime()">Confirmar</button>
+
+</div>
+
+<div class="card">
+
+<h2>Jogadores</h2>
+
+<div id="jogadores"></div>
+
+</div>
+
+<script type="module" src="js/campeonato.js"></script>
+
+</body>
+</html>
