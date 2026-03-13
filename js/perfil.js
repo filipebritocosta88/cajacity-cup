@@ -1,38 +1,43 @@
-import { app } from "./firebase.js";
+// js/perfil.js
+const authPerfil = firebase.auth();
+const dbPerfil = firebase.firestore();
 
-import {
-getAuth
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+authPerfil.onAuthStateChanged(user => {
+    if (user) {
+        dbPerfil.collection('usuarios').doc(user.uid).get().then(doc => {
+            if (doc.exists) {
+                const d = doc.data();
+                document.getElementById('display-nome').innerText = d.nome;
+                document.getElementById('display-email').innerText = d.email;
+                document.getElementById('edit-nome').value = d.nome;
+                document.getElementById('edit-foto-url').value = d.foto || "";
+                
+                if (d.foto) {
+                    document.getElementById('profile-img-big').src = d.foto;
+                    document.getElementById('header-avatar').src = d.foto;
+                }
 
-import {
-getFirestore,
-doc,
-setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+                // Estatísticas
+                if (d.estatisticas) {
+                    document.getElementById('stat-gols').innerText = d.estatisticas.gols || 0;
+                    document.getElementById('stat-vitorias').innerText = d.estatisticas.vitorias || 0;
+                    document.getElementById('stat-jogos').innerText = d.estatisticas.jogos || 0;
+                }
+            }
+        });
+    }
+});
 
-const auth = getAuth(app)
-const db = getFirestore(app)
+document.getElementById('btn-salvar-perfil').addEventListener('click', () => {
+    const novoNome = document.getElementById('edit-nome').value;
+    const novaFoto = document.getElementById('edit-foto-url').value;
+    const user = authPerfil.currentUser;
 
-window.salvarPerfil = async function(){
-
-let user = auth.currentUser
-
-let nome = document.getElementById("nome").value
-
-await setDoc(doc(db,"usuarios",user.uid),{
-
-nome
-
-})
-
-alert("Perfil salvo!")
-
-}
-
-window.logout = function(){
-
-auth.signOut()
-
-window.location="index.html"
-
-}
+    dbPerfil.collection('usuarios').doc(user.uid).update({
+        nome: novoNome,
+        foto: novaFoto
+    }).then(() => {
+        alert("Perfil atualizado com sucesso!");
+        location.reload();
+    });
+});
