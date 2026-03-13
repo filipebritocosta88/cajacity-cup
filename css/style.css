@@ -1,81 +1,181 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+/* Estilo Global - Cajacity Cup (eSports Style) */
+:root {
+    --primary: #00ff88; /* Verde Neon eSports */
+    --secondary: #00d4ff; /* Azul Tech */
+    --bg-dark: #0f1218;
+    --bg-card: #1a1f26;
+    --text-light: #f5f5f5;
+    --accent: #ff0055;
+    --gradient: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
 }
 
-body{
-background:#0b1020;
-color:white;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 20px;
-background:#121a35;
-box-shadow:0 4px 10px rgba(0,0,0,0.3);
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    padding-bottom: 70px; /* Espaço para o menu inferior */
 }
 
-.logo{
-font-weight:600;
-font-size:18px;
+/* Header e Avatar */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: rgba(26, 31, 38, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-.avatar{
-width:40px;
-height:40px;
-border-radius:50%;
-background:#22c55e;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:600;
-cursor:pointer;
+.logo {
+    font-weight: 800;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.container{
-padding:20px;
+.user-avatar-container {
+    position: relative;
+    cursor: pointer;
 }
 
-.card{
-background:#141c3a;
-border-radius:12px;
-padding:20px;
-margin-bottom:20px;
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    object-fit: cover;
 }
 
-input,select{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:8px;
-border:none;
-background:#0b1020;
-color:white;
+/* Menu Dropdown do Avatar */
+.avatar-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background: var(--bg-card);
+    border-radius: 12px;
+    width: 180px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    overflow: hidden;
+    z-index: 1000;
 }
 
-button{
-width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:8px;
-background:#22c55e;
-color:white;
-font-weight:600;
-cursor:pointer;
+.avatar-menu.active { display: block; }
+
+.avatar-menu a {
+    display: block;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-button:hover{
-opacity:0.9;
+.avatar-menu a:hover { background: rgba(255,255,255,0.1); }
+
+/* Containers Principais */
+.container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.campeonato{
-background:#0b1020;
-padding:15px;
-border-radius:8px;
-margin-top:10px;
+/* Cards de Campeonatos */
+.card-campeonato {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--primary);
+    transition: transform 0.2s;
 }
+
+.card-campeonato:active { transform: scale(0.98); }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.game-badge {
+    background: rgba(0, 255, 136, 0.1);
+    color: var(--primary);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Formulários */
+.form-group { margin-bottom: 15px; }
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #111;
+    color: white;
+    outline: none;
+}
+
+input:focus { border-color: var(--primary); }
+
+.btn-primary {
+    background: var(--gradient);
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    color: #000;
+    font-weight: bold;
+    width: 100%;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+/* Menu Inferior Estilo App */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(26, 31, 38, 0.95);
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    z-index: 1000;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #888;
+    text-decoration: none;
+    font-size: 0.65rem;
+    transition: 0.3s;
+}
+
+.nav-item i { font-size: 1.4rem; margin-bottom: 4px; }
+.nav-item.active { color: var(--primary); }
+
+/* Utilitários */
+.text-center { text-align: center; }
+.hidden { display: none; }
