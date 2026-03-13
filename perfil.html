@@ -1,47 +1,92 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Perfil</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Meu Perfil | Cajacity Cup</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header>
+    <header>
+        <div class="logo" onclick="window.location.href='dashboard.html'" style="cursor:pointer">Cajacity Cup</div>
+        <div class="user-avatar-container" onclick="toggleMenu()">
+            <img src="https://via.placeholder.com/40" alt="Avatar" class="user-avatar" id="header-avatar">
+            <div class="avatar-menu" id="avatar-menu">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Home</a>
+                <a href="#" onclick="logout()" style="color: var(--accent);"><i class="fas fa-sign-out-alt"></i> Sair</a>
+            </div>
+        </div>
+    </header>
 
-<div class="logo">Perfil</div>
+    <div class="container">
+        <div class="text-center" style="margin-bottom: 30px;">
+            <div style="position: relative; display: inline-block;">
+                <img src="https://via.placeholder.com/120" alt="Foto Perfil" id="profile-img-big" 
+                     style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--primary); object-fit: cover;">
+                <label for="upload-foto" style="position: absolute; bottom: 5px; right: 5px; background: var(--primary); color: black; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <i class="fas fa-camera"></i>
+                </label>
+                <input type="file" id="upload-foto" style="display: none;" accept="image/*">
+            </div>
+            <h2 id="display-nome" style="margin-top: 15px;">Nome do Jogador</h2>
+            <p id="display-email" style="color: #888; font-size: 0.9rem;">email@exemplo.com</p>
+        </div>
 
-<div onclick="logout()" class="avatar">S</div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px;">
+            <div class="card-campeonato" style="padding: 15px; text-align: center; margin-bottom: 0;">
+                <small style="color: #888;">Gols</small>
+                <div id="stat-gols" style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">0</div>
+            </div>
+            <div class="card-campeonato" style="padding: 15px; text-align: center; margin-bottom: 0;">
+                <small style="color: #888;">Vitórias</small>
+                <div id="stat-vitorias" style="font-size: 1.2rem; font-weight: bold; color: var(--secondary);">0</div>
+            </div>
+            <div class="card-campeonato" style="padding: 15px; text-align: center; margin-bottom: 0;">
+                <small style="color: #888;">Jogos</small>
+                <div id="stat-jogos" style="font-size: 1.2rem; font-weight: bold;">0</div>
+            </div>
+        </div>
 
-</header>
+        <div class="card-campeonato">
+            <h3 style="margin-bottom: 15px;">Editar Dados</h3>
+            <div class="form-group">
+                <label style="font-size: 0.8rem; color: #888;">Nome de Jogador</label>
+                <input type="text" id="edit-nome" placeholder="Seu apelido no jogo">
+            </div>
+            <div class="form-group">
+                <label style="font-size: 0.8rem; color: #888;">URL da Foto (ou upload acima)</label>
+                <input type="text" id="edit-foto-url" placeholder="https://linkdafoto.com">
+            </div>
+            <button class="btn-primary" id="btn-salvar-perfil">Salvar Alterações</button>
+        </div>
+    </div>
 
-<div class="container">
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <i class="fas fa-home"></i><span>Home</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-trophy"></i><span>Torneios</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-chart-line"></i><span>Ranking</span>
+        </a>
+        <a href="perfil.html" class="nav-item active">
+            <i class="fas fa-user"></i><span>Perfil</span>
+        </a>
+    </nav>
 
-<div class="card">
-
-<h3>Seu perfil</h3>
-
-<input id="nome" placeholder="Nome do jogador">
-
-<input type="file" id="foto">
-
-<button onclick="salvarPerfil()">Salvar</button>
-
-</div>
-
-</div>
-
-<script type="module" src="js/perfil.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/perfil.js"></script>
+    <script>
+        function toggleMenu() { document.getElementById('avatar-menu').classList.toggle('active'); }
+    </script>
 </body>
-
 </html>
