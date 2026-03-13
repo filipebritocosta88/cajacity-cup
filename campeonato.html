@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arena | Cajacity Cup</title>
+    <title>Cajacity Cup | Arena</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -14,35 +14,53 @@
     </header>
 
     <div class="container">
-        <div id="camp-info-top" style="text-align: center; margin-bottom: 20px;">
-            <span class="game-badge" id="detalhe-jogo">---</span>
-            <h2 id="detalhe-nome">---</h2>
-        </div>
-
-        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-            <button class="btn-primary" style="flex:1" onclick="switchTab('tab-tabela')">Tabela</button>
-            <button class="btn-primary" style="flex:1; background:#1a1f26" onclick="switchTab('tab-jogadores')">Players</button>
-            <button id="btn-admin-tab" class="btn-primary hidden" style="flex:1; background:var(--accent)" onclick="switchTab('tab-admin')">Convidar</button>
-        </div>
-
-        <div id="tab-jogadores" class="tab-content hidden">
-            <div class="card-campeonato">
-                <h3>Participantes Confirmados</h3>
-                <div id="lista-players-camp"></div>
+        <div class="card-campeonato" style="text-align: center; border-left: 4px solid var(--primary);">
+            <span class="game-badge" id="detalhe-jogo">...</span>
+            <h2 id="detalhe-nome" style="margin: 10px 0;">Carregando...</h2>
+            <div id="meu-time-badge" class="hidden" style="margin-top:10px; padding: 10px; background: #222; border-radius: 8px;">
+                <span style="font-size: 0.7rem; color: #888;">MEU TIME:</span>
+                <div id="time-selecionado-display" style="font-weight: bold; color: var(--primary);">---</div>
             </div>
         </div>
 
-        <div id="tab-admin" class="tab-content hidden">
+        <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+            <button class="btn-primary" style="flex:1; background: #1a1f26; border: 1px solid #333;" onclick="switchTab('tab-tabela')">Tabela</button>
+            <button class="btn-primary" style="flex:1; background: #1a1f26; border: 1px solid #333;" onclick="switchTab('tab-times')">Escolher Time</button>
+            <button id="btn-admin-tab" class="btn-primary hidden" style="flex:1; background: var(--accent);" onclick="switchTab('tab-admin')">Convidar</button>
+        </div>
+
+        <div id="tab-times" class="tab-content hidden">
             <div class="card-campeonato">
-                <h3>Buscar Jogadores no Sistema</h3>
-                <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">Clique no jogador para enviar convite</p>
-                <div id="lista-todos-usuarios" style="max-height: 300px; overflow-y: auto;">
+                <h3><i class="fas fa-shield-alt"></i> Escolha seu Clube</h3>
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">Times já escolhidos ficam bloqueados.</p>
+                
+                <div class="form-group">
+                    <label>Selecione a Liga</label>
+                    <select id="select-liga" onchange="renderizarTimesPorLiga()">
+                        <option value="br">Brasileirão Série A</option>
+                        <option value="es">La Liga (Espanha)</option>
+                        <option value="en">Premier League (Inglaterra)</option>
+                        <option value="it">Série A (Itália)</option>
+                    </select>
+                </div>
+
+                <div id="grid-times" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     </div>
             </div>
         </div>
 
         <div id="tab-tabela" class="tab-content">
-            <div id="tabela-placeholder" class="card-campeonato">Aguardando início do campeonato...</div>
+            <div class="card-campeonato">
+                <h3>Classificação</h3>
+                <div id="lista-participantes-times" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+
+        <div id="tab-admin" class="tab-content hidden">
+            <div class="card-campeonato">
+                <h3>Enviar Convite</h3>
+                <div id="lista-jogadores-sistema" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
         </div>
     </div>
 
