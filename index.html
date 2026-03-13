@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 
 <head>
 
-<title>Jogadores - Cajacity Cup</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cajacity Cup</title>
 
 <style>
 
@@ -12,38 +15,39 @@ font-family:Arial;
 background:#0f172a;
 color:white;
 text-align:center;
+padding-top:100px;
 }
 
-.box{
+.container{
 background:#1e293b;
-padding:20px;
-width:400px;
+width:350px;
 margin:auto;
+padding:40px;
 border-radius:10px;
 }
 
 input{
+width:100%;
 padding:10px;
-margin:5px;
-width:80%;
+margin:10px 0;
+border:none;
+border-radius:5px;
 }
 
 button{
-padding:10px;
-background:#22c55e;
+width:100%;
+padding:12px;
 border:none;
+border-radius:5px;
+background:#22c55e;
 color:white;
+font-weight:bold;
 cursor:pointer;
+margin-top:10px;
 }
 
-table{
-margin:auto;
-margin-top:20px;
-background:#1e293b;
-}
-
-td,th{
-padding:10px;
+button:hover{
+background:#16a34a;
 }
 
 </style>
@@ -54,70 +58,73 @@ padding:10px;
 
 <h1>🏆 Cajacity Cup</h1>
 
-<h2>Cadastrar Jogador</h2>
+<div class="container">
 
-<div class="box">
+<h2>Login</h2>
 
-<input id="nome" placeholder="Nome do jogador">
+<input id="email" placeholder="Email">
 
-<input id="time" placeholder="Time escolhido">
+<input id="senha" type="password" placeholder="Senha">
 
-<button onclick="cadastrar()">Cadastrar</button>
+<button onclick="login()">Entrar</button>
+
+<button onclick="criarConta()">Criar conta</button>
 
 </div>
 
-<h2>Jogadores</h2>
+<script type="module">
 
-<table border="1">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
-<thead>
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword }
 
-<tr>
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-<th>Jogador</th>
-<th>Time</th>
 
-</tr>
+const firebaseConfig = {
 
-</thead>
+apiKey: "AIzaSyBHdQFLQ3V4BjdYRt5J6zq1H86jFJrotic",
 
-<tbody id="lista"></tbody>
+authDomain: "cajacity-cup.firebaseapp.com",
 
-</table>
+projectId: "cajacity-cup",
 
-<script>
+storageBucket: "cajacity-cup.firebasestorage.app",
 
-let jogadores = []
+messagingSenderId: "922666284836",
 
-function cadastrar(){
+appId: "1:922666284836:web:4bd0e3e8a6600e0dd7a5b1"
 
-let nome = document.getElementById("nome").value
-let time = document.getElementById("time").value
+};
 
-jogadores.push({nome,time})
 
-atualizar()
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+
+window.criarConta = async function(){
+
+let email = document.getElementById("email").value
+
+let senha = document.getElementById("senha").value
+
+await createUserWithEmailAndPassword(auth,email,senha)
+
+alert("Conta criada com sucesso!")
 
 }
 
-function atualizar(){
 
-let tabela = document.getElementById("lista")
+window.login = async function(){
 
-tabela.innerHTML=""
+let email = document.getElementById("email").value
 
-jogadores.forEach(j=>{
+let senha = document.getElementById("senha").value
 
-tabela.innerHTML +=
+await signInWithEmailAndPassword(auth,email,senha)
 
-`<tr>
-
-<td>${j.nome}</td>
-<td>${j.time}</td>
-
-</tr>`
-
-})
+alert("Login realizado!")
 
 }
 
