@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cajacity Cup | Entrar</title>
+    <title>Cajacity Cup | Arena</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
@@ -12,30 +12,30 @@
     <div class="container" style="margin-top: 50px;">
         <div class="text-center" style="margin-bottom: 40px;">
             <h1 class="logo" style="font-size: 2.5rem;">Cajacity Cup</h1>
-            <p style="color: #888;">Plataforma de eSports</p>
+            <p style="color: #888;">THE ULTIMATE ESPORTS EXPERIENCE</p>
         </div>
 
         <div class="card-campeonato" id="login-section">
-            <h3 style="margin-bottom: 20px;"><i class="fas fa-lock"></i> Acesso à Arena</h3>
+            <h3 style="margin-bottom: 20px; text-align: center;"><i class="fas fa-sign-in-alt"></i> LOGIN</h3>
             <div class="form-group"><input type="email" id="login-email" placeholder="E-mail"></div>
             <div class="form-group"><input type="password" id="login-senha" placeholder="Senha"></div>
-            <button class="btn-primary" id="btn-entrar">Entrar</button>
+            <button class="btn-primary" id="btn-entrar">ENTRAR NA ARENA</button>
             <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
-                Novo por aqui? <a href="#" id="show-register" style="color: var(--primary); text-decoration: none;">Cadastre seu Nick</a>
+                Ainda não tem conta? <a href="#" id="show-register" style="color: var(--primary); font-weight: bold;">CADASTRAR NICK</a>
             </p>
         </div>
 
         <div class="card-campeonato hidden" id="register-section">
-            <h3 style="margin-bottom: 20px;"><i class="fas fa-user-plus"></i> Criar Perfil</h3>
+            <h3 style="margin-bottom: 20px; text-align: center;"><i class="fas fa-user-plus"></i> NOVO JOGADOR</h3>
             <div class="form-group">
-                <input type="text" id="reg-nome" placeholder="Nick de Jogador (Único)">
-                <small id="nome-aviso" style="color: var(--accent); display: none;">Este nome já está em uso!</small>
+                <input type="text" id="reg-nome" placeholder="Seu Nick de Jogador">
+                <small id="nome-aviso" style="color: var(--accent); display: none;">Este Nick já está em uso!</small>
             </div>
             <div class="form-group"><input type="email" id="reg-email" placeholder="E-mail"></div>
-            <div class="form-group"><input type="password" id="reg-senha" placeholder="Senha (min. 6 caracteres)"></div>
-            <button class="btn-primary" id="btn-cadastrar">Finalizar Cadastro</button>
+            <div class="form-group"><input type="password" id="reg-senha" placeholder="Senha (6+ dígitos)"></div>
+            <button class="btn-primary" id="btn-cadastrar">CRIAR PERFIL</button>
             <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
-                Já tem conta? <a href="#" id="show-login" style="color: var(--primary); text-decoration: none;">Fazer Login</a>
+                Já é cadastrado? <a href="#" id="show-login" style="color: var(--primary); font-weight: bold;">FAZER LOGIN</a>
             </p>
         </div>
     </div>
@@ -46,14 +46,8 @@
     <script src="js/firebase.js"></script>
     <script src="js/auth.js"></script>
     <script>
-        document.getElementById('show-register').onclick = () => {
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('register-section').classList.remove('hidden');
-        };
-        document.getElementById('show-login').onclick = () => {
-            document.getElementById('register-section').classList.add('hidden');
-            document.getElementById('login-section').classList.remove('hidden');
-        };
+        document.getElementById('show-register').onclick = (e) => { e.preventDefault(); document.getElementById('login-section').classList.add('hidden'); document.getElementById('register-section').classList.remove('hidden'); };
+        document.getElementById('show-login').onclick = (e) => { e.preventDefault(); document.getElementById('register-section').classList.add('hidden'); document.getElementById('login-section').classList.remove('hidden'); };
     </script>
 </body>
 </html>
