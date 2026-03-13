@@ -1,25 +1,58 @@
-import { app } from "./firebase.js";
+// js/campeonato.js
+const db = firebase.firestore();
+const urlParams = new URLSearchParams(window.location.search);
+const campId = urlParams.get('id');
 
-import {
+let dadosCampeonato = null;
 
-getFirestore,
-collection,
-addDoc
+firebase.auth().onAuthStateChanged(user => {
+    if (user && campId) {
+        carregarDadosCampeonato(user.uid);
+    }
+});
 
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+function carregarDadosCampeonato(userId) {
+    db.collection('campeonatos').doc(campId).get().then(doc => {
+        if (doc.exists) {
+            dadosCampeonato = doc.data();
+            document.getElementById('detalhe-nome').innerText = dadosCampeonato.nome;
+            document.getElementById('detalhe-jogo').innerText = dadosCampeonato.jogo;
+            document.getElementById('detalhe-formato').innerText = `${dadosCampeonato.console} • ${dadosCampeonato.formato}`;
 
-const db = getFirestore(app);
+            // Se for o Host, mostra aba Admin
+            if (dadosCampeonato.hostId === userId) {
+                document.getElementById('btn-admin-tab').classList.remove('hidden');
+                popularSelectsAdmin();
+            }
+            
+            carregarListaParticipantes();
+        }
+    });
+}
 
-window.escolherTime = async function(){
+function carregarListaParticipantes() {
+    const lista = document.getElementById('lista-players-camp');
+    lista.innerHTML = "";
+    
+    // Busca detalhes de cada participante
+    dadosCampeonato.participantes.forEach(uid => {
+        db.collection('usuarios').doc(uid).get().then(userDoc => {
+            const u = userDoc.data();
+            lista.innerHTML += `
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #333;">
+                    <span><i class="fas fa-user-circle"></i> ${u.nome}</span>
+                    <span style="font-size: 0.7rem; color: var(--primary);">TIME: ---</span>
+                </div>
+            `;
+        });
+    });
+}
 
-let time = document.getElementById("time").value
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+    document.getElementById(tabId).classList.remove('hidden');
+}
 
-await addDoc(collection(db,"times"),{
-
-time
-
-})
-
-alert("Time escolhido")
-
+function popularSelectsAdmin() {
+    // Aqui popularíamos os selects com os nomes dos jogadores para registrar resultados
 }
